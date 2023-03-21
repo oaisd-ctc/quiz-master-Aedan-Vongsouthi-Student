@@ -15,3 +15,9 @@ MonoBehaviour:
   question: 'Who is the worst rapper?
 
 '
+  answers:
+  - Wiz Khalifa
+  - Eminem
+  - Ice Spice
+  - Megan Thee Stallion
+  correctanswerindex: 0
