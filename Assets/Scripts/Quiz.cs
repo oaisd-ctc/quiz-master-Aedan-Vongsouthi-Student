@@ -11,10 +11,38 @@ public class Quiz : MonoBehaviour
     [SerializeField] QuestionSO question;
     [SerializeField] GameObject[] answerButtons;
     int correctanswerindex;
-    [SerializeField] Sprite defaultAnswerSpirte;
-    [SerializeField] Sprite correctAnswerSpirte;
+    [SerializeField] Sprite defaultAnswerSprite;
+    [SerializeField] Sprite correctAnswerSprite;
 
     void Start()
+    {
+       GetNextQuestion();
+    }
+
+    public void OnAnswerSelected(int index)
+    {
+        if (index == question.GetCorrectAnswerIndex())
+        {
+            questionText.text = "Correct!";
+            Image buttonImage = answerButtons[index].GetComponent<Image>();
+            buttonImage.sprite = correctAnswerSprite;
+        } else {
+            questionText.text = "Wrong, ya idiot! The correct answer is \n" + question.GetAnswer(question.GetCorrectAnswerIndex()) + "...idiot";
+            Image buttonImage = answerButtons[question.GetCorrectAnswerIndex()].GetComponent<Image>();
+            buttonImage.sprite = correctAnswerSprite;
+        }
+
+        SetButtonState(false);
+    }
+
+    void GetNextQuestion()
+    {
+        SetButtonState(true);
+        SetDefaultButtonState();
+        DisplayQuestion();
+    }
+    
+    void DisplayQuestion()
     {
         questionText.text = question.GetQuestion();
         for (int i = 0; i < answerButtons.Length; i++)
@@ -24,17 +52,21 @@ public class Quiz : MonoBehaviour
         }
     }
 
-    public void OnAnswerSelected(int index)
+    void SetButtonState(bool state)
     {
-        if (index == question.GetCorrectAnswerIndex())
+        for (int i = 0; i < answerButtons.Length; i++)
         {
-            questionText.text = "Correct!";
-            Image buttonImage = answerButtons[index].GetComponent<Image>();
-            buttonImage.sprite = correctAnswerSpirte;
-        } else {
-            questionText.text = "Wrong, ya idiot! The correct answer is \n" + question.GetAnswer(question.GetCorrectAnswerIndex());
-            Image buttonImage = answerButtons[question.GetCorrectAnswerIndex()].GetComponent<Image>();
-            buttonImage.sprite = correctAnswerSpirte;
+            Button button = answerButtons[i].GetComponent<Button>();
+            button.interactable = state;
+        }
+    }
+
+    void SetDefaultButtonState()
+    {
+        for (int i = 0; i < answerButtons.Length; i++)
+        {
+            Image buttonImage = answerButtons[i].GetComponent<Image>();
+            buttonImage.sprite = defaultAnswerSprite;
         }
     }
 }
