@@ -28,8 +28,12 @@ public class Quiz : MonoBehaviour
     {
         if (index == question.GetCorrectAnswerIndex())
         {
-            questionText.text = "Corrrect!";
+            questionText.text = "Correct!";
             Image buttonImage = answerButtons[index].GetComponent<Image>();
+            buttonImage.sprite = correctAnswerSpirte;
+        } else {
+            questionText.text = "Wrong, ya idiot! The correct answer is \n" + question.GetAnswer(question.GetCorrectAnswerIndex());
+            Image buttonImage = answerButtons[question.GetCorrectAnswerIndex()].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSpirte;
         }
     }
