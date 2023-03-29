@@ -21,13 +21,25 @@ public class Quiz : MonoBehaviour
     [SerializeField] Sprite defaultAnswerSprite;
     [SerializeField] Sprite correctAnswerSprite;
 
-     [Header("Timer")]
+    [Header("Timer")]
     [SerializeField] Image timerImage;
     Timer timer;
+
+    [Header("Timer")]
+    [SerializeField] TextMeshProUGUI scoreText;
+    ScoreKeeper scoreKeeper;
+
+    [Header("Timer")]
+    [SerializeField] Slider progressBar;
+
+    public bool isComplete;
 
     void Start()
     {
         timer = FindObjectOfType<Timer>();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        progressBar.maxValue = questions.Count;
+        progressBar.value = 0;
     }
 
     void Update()
@@ -52,6 +64,11 @@ public class Quiz : MonoBehaviour
         DisplayAnswer(index);
         SetButtonState(false);
         timer.CancelTimer();
+        scoreText.text = "Score: " + scoreKeeper.CalculateScore() + "%";
+        if (progressBar.value == progressBar.maxValue)
+        {
+            isComplete = true;
+        }
     }
 
     void DisplayAnswer(int index)
@@ -61,6 +78,7 @@ public class Quiz : MonoBehaviour
             questionText.text = "Correct!";
             Image buttonImage = answerButtons[index].GetComponent<Image>();
             buttonImage.sprite = correctAnswerSprite;
+            scoreKeeper.IncrementCorrectAnswers();
         } else {
             questionText.text = "Wrong, ya idiot! The correct answer is \n" + currentQuestion.GetAnswer(currentQuestion.GetCorrectAnswerIndex()) + "...idiot";
             Image buttonImage = answerButtons[currentQuestion.GetCorrectAnswerIndex()].GetComponent<Image>();
@@ -76,6 +94,8 @@ public class Quiz : MonoBehaviour
             SetDefaultButtonState();
             GetRandomQuestion();
             DisplayQuestion();
+            progressBar.value++;
+            scoreKeeper.IncrementQuestionsSeen();
         }
     }
 

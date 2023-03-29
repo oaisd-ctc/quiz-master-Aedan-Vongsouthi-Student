@@ -15,3 +15,9 @@ MonoBehaviour:
   question: 'Who is the best student?
 
 '
+  answers:
+  - Jacob
+  - Aedan
+  - Tin
+  - Ur mom
+  correctanswerindex: 1

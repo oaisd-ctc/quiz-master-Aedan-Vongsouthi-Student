@@ -15,3 +15,9 @@ MonoBehaviour:
   question: 'What is the best Arizona drink?
 
 '
+  answers:
+  - Half and Half
+  - Watermelon
+  - Fruit Punch
+  - Mucho Mango
+  correctanswerindex: 3
